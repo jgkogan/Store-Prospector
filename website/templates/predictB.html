@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<head>
+<title>Store Prospector</title>
+<link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css">
+<style>
+.navers {
+    font-family: "verdana";
+    font-size:25px;
+
+}
+
+
+.jumbotron {
+    padding: 0.5em 0.6em;
+
+  }
+  h3{
+
+    font-family: "Courier New";
+    font: bold;
+    font-size:34px;
+
+
+  }
+  h2{
+
+    font-family: "Courier New";
+    font: bold;
+    font-size:53px;
+
+
+  }
+   h4{
+
+    font-family: "Courier New";
+    font: bold;
+    font-size:23px;
+
+
+  }
+  body {
+
+    font-size:18px;
+
+  }
+  .footer{
+    padding-top: 20px;
+    padding-bottom: 15px;
+
+
+  }
+  .btn-xlarge {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding: 18px 22px;
+    font-size: 33px; 
+    font-family: "Courier New";
+    font: bold;
+    line-height: normal;
+    -webkit-border-radius: 8px;
+       -moz-border-radius: 8px;
+            border-radius: 8px;
+
+}
+.link{
+
+
+
+    font-family: "Courier New";
+    font: bold;
+    font-size:25px;
+
+}
+
+.link2{
+
+
+
+    font-family: "Courier New";
+    font: bold;
+    font-size:20px;
+
+}
+
+</style>
+
+</head>
+
+  <body role="document">
+
+    <!-- Fixed navbar -->
+    <!-- Fixed navbar -->
+    <div class="container">
+
+    <nav class="navbar navbar-light bg-info">
+  
+     <a class="navbar-brand" href="{{ url_for('main') }}"><strong class="link">Store Prospector</strong></a>
+    <a class="navbar-brand" href="{{ url_for('homepage') }}"><strong class="link">Tell Us About Your Shopping Center</strong></a>
+        
+
+    
+</nav></div>
+
+    <div class="container theme-showcase" role="main">
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+     
+      <div class="jumbotron">
+        
+
+      <h2 class="col-md-6"><strong>Results</strong></h2>
+
+
+<form method="post" action="{{ url_for('homepage') }} " align="right">
+
+
+
+   <input  type="hidden" value="{{checks}}" name="checks" class ="" style="position: absolute; left: -9999px" />
+   <input  type="hidden" value="{{totalStores}}" name="totalStores" class ="" style="position: absolute; left: -9999px" />
+
+      <strong><input  style="width: 400px;" type="submit"  value="Change Your Input" name="submit" class="btn btn-primary btn-xlarge"/></strong>
+
+
+</form>
+
+                        </div>
+
+  {%if totalStores==0%}
+ 
+ <div class=" bg-danger"> Your results may not be accurate. You said you have <strong>0</strong> stores in your shopping center. If that is inaccurate change your input for best results.</div>
+
+
+
+  {% elif totalStores<0 %}
+ <div class="bg-danger"> Your results may not be accurate. You said you have <strong>less than 0</strong> stores in your shopping center. Go back and change your input for best results.
+</div>
+{% elif len(catsinmall)==0 and totalStores>1 %}
+<div class="bg-danger"> Your results may not be accurate. You said you have <strong>0</strong> store types in your shopping center, but you have <strong>{{totalStores}}</strong> stores in your center. Go back and change your input for best results.
+</div>
+{% elif len(catsinmall)==0 and totalStores==1 %}
+<div class="bg-danger"> Your results may not be accurate. You said you have <strong>0</strong> store types in your shopping center, but you have <strong>{{totalStores}}</strong> store in your center. Go back and change your input for best results.
+</div>
+  {%endif%}
+
+
+
+           <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading"><h3><strong>Suggestions</strong></h3></div>
+        <div class="panel-body">
+        
+        <h4><strong>Store Types Currently In Your Shopping Center:</strong></h4>        
+
+        <p>
+        {%if len(catsinmall)==0%}
+        Your Shopping Center Currently Has No Store Types.
+        {%endif%}
+        {{catsinmall[0]}}{% for x in range(1,len(catsinmall)-1) %}, {{catsinmall[x]}}{%endfor%}{%if len(catsinmall)!=0 and len(catsinmall)!=1%}{%if len(catsinmall)!=2%},{%endif%}
+
+
+         and 
+
+
+        {{catsinmall[len(catsinmall)-1]}}
+
+
+
+
+        {%endif%}</p>
+          </div>
+
+  <!-- Table -->
+
+
+  <table class="table">
+ <tr class="bg-success"><td><h4><strong>#</strong></h4></td><td><h4><strong>
+ Suggested Store Types
+
+ </strong></h4></td>  </tr>
+    
+{%if len(suggestions)<5%}
+{%set numSug=len(suggestions) %}
+{%else%}
+{%set numSug=5 %}
+{%endif%}
+
+    {% for x in range(numSug) %}
+
+       <tr class="bg-success">
+        <td>{{x+1}}</td>
+        <td>
+
+        {{suggestions[x][0]}}
+
+        </td>      
+
+        </tr>
+        {%endfor%}
+
+          </table>
+</div>
+
+
+ </div>
+
+       
+         
+
+    
+        
+
+
+
+
+<br/>
+
+ <footer class="footer  bg-info">
+      <div class="container">
+       <div class="text-muted col-md-5" >Developed by: <strong>Jonathan Kogan, Risbabh Jain</strong>   Architect and Advisor: <strong>Dennis Shasha</strong>
+</div>
+       <div class="text-muted col-md-offset-4 col-md-3"  >
+       <strong>jgkogan@icloud.com        shasha@cims.nyu.edu</strong></div>
+      
+    <br />
+
+      </div>
+    </footer>
+
+
+
+
+
+          </body>
+
+
+          </html>
+

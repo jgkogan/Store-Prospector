@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<head>
+<title>Store Prospector</title>
+<link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css">
+<style>
+.navers {
+    font-family: "verdana";
+    font-size:25px;
+
+}
+
+table {
+  width: 100%;
+  margin-top: -80px;
+  margin-left: 40px;
+
+}
+.jumbotron {
+    padding: 0.5em 0.6em;
+
+  }
+  h3{
+
+    font-family: "Courier New";
+    font: bold;
+    font-size:30px;
+
+
+  }
+  body {
+
+    font-size:18px;
+
+  }
+ .footer{
+    padding-top: 20px;
+    padding-bottom: 15px;
+
+
+  }
+   h4{
+
+    font-family: "Courier New";
+    font: bold;
+    font-size:23px;
+
+
+  }
+  .link{
+
+
+
+    font-family: "Courier New";
+    font: bold;
+    font-size:25px;
+
+}
+
+.link2{
+
+
+
+    font-family: "Courier New";
+    font: bold;
+    font-size:20px;
+
+}
+
+</style>
+</head>
+
+  <body role="document">
+
+    <!-- Fixed navbar -->
+   <div class="container">
+
+    <nav class="navbar navbar-light bg-info">
+  
+   
+     <a class="navbar-brand" href="{{ url_for('main') }}"><strong class="link">Store Prospector</strong></a>
+    <a class="navbar-brand" href="{{ url_for('homepage') }}"><strong class="link">Tell Us About Your Shopping Center</strong></a>
+        
+
+
+    
+</nav>
+</div>
+
+    <div class="container theme-showcase" role="main">
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+       
+        <p>
+        Check the boxes that correspond to types of stores in your shopping center. If you have one or more of that type of store check it off. Also if you feel you have store that fits into multiple categories, check all of those categories. </p>
+
+
+        <p><strong>non-bank_finance</strong> corresponds to categories like "lottery, mortgages, gold buyers/sellers, taxes, and overall any non-bank related finance."</p>
+
+        <p> <strong>super_stores</strong> are stores like Target, Costco, Walmart, Kmart, etc.
+    
+         </p>
+
+         <p> <strong>local stores</strong> are stores that exist in zero or few other locations without a particular category.
+    
+         </p>
+         <p> <strong>fun_and_entertainment stores</strong> are stores like music stores, mini golf, bowling alleys, children's playhouses, movie rental stores, and overall anything that you would consider to be either fun, entertainment, or both.
+         </p>
+      </div>
+
+
+
+
+     
+<form method="post" action="{{ url_for('predict') }} ">
+<table>
+<thead class="thead-inverse"><tr><th colspan="4"><h3><strong>Categories in Alphabetical Order</strong></h3>
+</th></tr></thead>
+
+
+
+<tr>
+{%set col=4%}
+  <div class="checkbox">
+  {%set categories=revCats(categories)[0]%}
+    {%for x in range(len(categories)) %}
+    <label>
+   {%if col==4%}
+   <tr>
+   {%set col=0%}
+   {%endif%} 
+
+    <td>
+      {%if checks[x]==1%}
+      <input type="checkbox" checked name="{{categories[x]}}" label="{{categories[x]}}" value="{{categories[x]}}"> {{replace(categories[x],"_"," ")}}
+      {%endif%}
+      {%if checks[x]==0%}
+      <input type="checkbox"  name="{{categories[x]}}" label="{{categories[x]}}" value="{{categories[x]}}"> {{categories[x]}}
+      {%endif%}</td>
+      {%set col=col+1%}
+
+    </label>
+    {%endfor%}</tr>
+   
+  </div>
+   
+  </table>
+      <br />
+  <div class="col-md-7" align="right">
+      Enter the total number of available store units in your center</div><div class="col-md-5"><input type="number" class="form-control" value="{{totalStores}}" name="totalStores"  style="width:80px" />
+</div>
+   <input  type="submit" value="Search" name="submit" class ="" style="position: absolute; left: -9999px" />
+     <div class="col-md-offset-1 col-md-4" align="center"> 
+     <br />
+     
+     <input  style="width: 300px;" type="submit"  value="Refresh" name="submit" class ="btn btn-warning btn-lg" />
+
+    
+
+     </div>
+
+     <div class="col-md-offset-2 col-md-4" align="center"> 
+     <br />
+     
+
+      <input  style="width: 300px;" type="submit"  value="Predict" name="submit" class ="btn btn-success btn-lg" />
+
+     </div>
+
+
+
+
+          </div>
+     
+
+    
+
+
+
+
+  
+
+
+
+<br/>
+
+<div class="bg-info well">
+      
+<p align="center">
+        If you don't know the type of a certain store in your shopping center, enter the name of the store into the textfield below and it will search our extensive database for you.
+         </p>
+     
+<div align="center">
+    <div class="input-group" align="center" style="width: 500px;" >
+      <input  type="text" class="form-control" name="store"  placeholder="Store">
+      <span class="input-group-btn">
+        <input  type="submit" value="Search" name="submit" class ="btn btn-primary" />
+      </span></form>
+    </div><!-- /input-group -->
+  </div>
+
+{%if store!=None%}
+
+<h4 align="center">
+
+
+
+{%if fuzzyStore[0]==store %}
+
+ <strong>{{store}}:</strong> {{storeTypes}}
+    
+{%elif fuzzyStore[1]<80%}
+
+ <strong>{{store}}:</strong> {{storeTypes}}
+
+ {%else%}
+
+ We could not find {{store}}, but we were able to find <strong>{{fuzzyStore[0]}}</strong>.<br />
+<strong>{{fuzzyStore[0]}}:</strong> {{storeTypes}}<br />
+     
+
+{%endif%}
+
+
+{%endif%}
+</h4>
+      </div>
+
+
+  
+
+
+<br />
+
+
+
+
+
+
+
+
+      
+<br />
+
+
+          </div>
+
+
+
+<footer class="footer  bg-info">
+      <div class="container">
+       <div class="text-muted col-md-5" >Developed by: <strong>Jonathan Kogan, Risbabh Jain</strong>   Architect and Advisor: <strong>Dennis Shasha</strong>
+</div>
+       <div class="text-muted col-md-offset-4 col-md-3"  >
+       <strong>jgkogan@icloud.com        shasha@cims.nyu.edu</strong></div>
+      
+    <br />
+
+      </div>
+    </footer>
+
+
+
+          </body>
+
+
+          </html>
+
