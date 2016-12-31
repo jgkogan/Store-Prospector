@@ -65,7 +65,7 @@ def storeToCats(store):
 
 
 def predictor(storesInMall,totalStores):
-    conn = sqlite3.connect('TheRealRealEstateProjectDatabase.db')
+    conn = sqlite3.connect('database.db')
 
     c = conn.cursor()
 
