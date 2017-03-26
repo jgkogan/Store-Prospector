@@ -1,7 +1,7 @@
 # Store-Prospector
 Jonathan Kogan, Dennis Shasha, Roy Lowrance, and Risbabh Jain
 
-A machine learning approach to predicting the types of tenants to fill vacancies in shopping centers. This repository contains a few main things: the data, the code for the machine learning model, the online Store Prospector system, and the code used in the analysis of the successfulness of the model (e.g code for charts). 
+This is a machine learning approach for suggesting the types of tenants to fill vacancies in shopping centers. This repository contains a few main things: the data, the code for the machine learning model, the online Store Prospector system, and the code used in the analysis of the successfulness of the model (e.g code for charts). 
 
 The official paper explaining the research can be found at https://www.cs.nyu.edu/media/publications/TR2016-984.pdf.
 
